@@ -1,0 +1,21 @@
+{
+  "name": "현장 위험성 평가표",
+  "short_name": "위험성평가",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "ICON.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "ICON.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
