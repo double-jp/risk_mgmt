@@ -1107,7 +1107,7 @@
         const grid = dfs_xy_conv(lat, lon);
         const base_date = new Date().getFullYear() + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate()).padStart(2, '0');
         const base_time = String(new Date().getHours() - 1).padStart(2, '0') + '00';
-        const serviceKey = "32hx6v6b6YOkxCDbGAZv1sVAmobH2HCcPvhz9Jd88b0z1ee7nKtKJE1MTOj3gOwzp9LD8HhILa0cCjvMj5X9rQ%3D%3D";
+        const serviceKey = "4db43e791633bf58ced61b43f08d1e05c71498c1d06bccf791ebf732f19ed17a";
         const url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${serviceKey}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=${grid.x}&ny=${grid.y}`;
 
         try {
