@@ -153,12 +153,12 @@
           <div class="space-y-4">
             <div class="bg-slate-50 p-4 rounded-xl border-l-4 border-blue-500 shadow-sm">
               <h2 class="text-sm font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-cloud-sun text-blue-500"></i> STEP 2. 기상청 데이터 및 건설기계</h2>
-              <p class="text-xs text-slate-500 mt-0.5">공공 기상청 허브 서버와 실시간 통신하여 기온/체감온도를 업데이트</p>
+              <p class="text-xs text-slate-500 mt-0.5">공공 기상청 허브 서버와 실시간 통신하여 기온/체감온도/풍속/날씨를 업데이트</p>
             </div>
 
             <div class="bg-white border border-slate-100 p-4 rounded-xl shadow-sm space-y-3">
               <button type="button" onclick="fetchWeather(this)" class="w-full py-2.5 bg-slate-800 hover:bg-black text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 shadow">
-                <i class="fa-solid fa-location-crosshairs text-amber-400"></i> 기상청 현재 실시간 기온 불러오기 (클릭)
+                <i class="fa-solid fa-location-crosshairs text-amber-400"></i> 기상청 현재 실시간 기상정보 불러오기 (클릭)
               </button>
               <div class="grid grid-cols-2 gap-3">
                 <div class="bg-slate-50 p-2.5 rounded-lg text-center border border-slate-100">
@@ -168,6 +168,14 @@
                 <div class="bg-slate-50 p-2.5 rounded-lg text-center border border-slate-100">
                   <span class="block text-[11px] font-bold text-slate-400 mb-0.5">체감 온도</span>
                   <input type="text" id="fake_temperature" placeholder="연동 대기" oninput="generateImage()" class="w-full text-center bg-transparent border-none font-extrabold text-sm text-slate-800 focus:outline-none">
+                </div>
+                <div class="bg-slate-50 p-2.5 rounded-lg text-center border border-slate-100">
+                  <span class="block text-[11px] font-bold text-slate-400 mb-0.5">풍속</span>
+                  <input type="text" id="wind_speed" placeholder="연동 대기" oninput="generateImage()" class="w-full text-center bg-transparent border-none font-extrabold text-sm text-slate-800 focus:outline-none">
+                </div>
+                <div class="bg-slate-50 p-2.5 rounded-lg text-center border border-slate-100">
+                  <span class="block text-[11px] font-bold text-slate-400 mb-0.5">현재 날씨</span>
+                  <input type="text" id="sky_condition" placeholder="연동 대기" oninput="generateImage()" class="w-full text-center bg-transparent border-none font-extrabold text-sm text-slate-800 focus:outline-none">
                 </div>
               </div>
             </div>
@@ -1038,6 +1046,37 @@
     }
 
     // 필수 유지 기능 3 : 기온/체감온도 호출 및 원본 성공 알림창 정보 디스플레이 100% 보존
+    // 초단기예보 API로 하늘상태(SKY)/강수형태(PTY) 보강 조회
+    async function fetchSkyCondition(grid, serviceKey) {
+      try {
+        const now = new Date();
+        let hour = now.getHours();
+        const baseDateObj = new Date();
+        if (now.getMinutes() < 45) hour -= 1;
+        if (hour < 0) { hour = 23; baseDateObj.setDate(baseDateObj.getDate() - 1); }
+        const base_date = baseDateObj.getFullYear() + String(baseDateObj.getMonth() + 1).padStart(2, '0') + String(baseDateObj.getDate()).padStart(2, '0');
+        const base_time = String(hour).padStart(2, '0') + '30';
+        const url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=${serviceKey}&pageNo=1&numOfRows=100&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=${grid.x}&ny=${grid.y}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data?.response?.header?.resultCode === "00") {
+          const items = data.response.body.items.item;
+          return {
+            sky: items.find(i => i.category === "SKY")?.fcstValue,
+            pty: items.find(i => i.category === "PTY")?.fcstValue
+          };
+        }
+      } catch (e) { console.error(e); }
+      return { sky: null, pty: null };
+    }
+
+    function describeSkyCondition(sky, pty) {
+      const ptyMap = { "1": "🌧 비", "2": "🌨 비/눈", "3": "❄️ 눈", "4": "🌦 소나기", "5": "🌧 빗방울", "6": "🌨 빗방울날림", "7": "🌨 눈날림" };
+      if (pty && ptyMap[pty]) return ptyMap[pty];
+      const skyMap = { "1": "☀️ 맑음", "3": "⛅ 구름많음", "4": "☁️ 흐림" };
+      return skyMap[sky] || "정보 없음";
+    }
+
     async function fetchWeather(btn) {
       if (!navigator.geolocation) {
         alert("GPS 위치 정보 권한 획득이 불가한 브라우저 환경입니다.");
@@ -1079,8 +1118,14 @@
             const t1h = items.find(i => i.category === "T1H").obsrValue;
             const wsd = items.find(i => i.category === "WSD")?.obsrValue || 0;
             const reh = items.find(i => i.category === "REH")?.obsrValue || 50;
-            
+            const ptyNow = items.find(i => i.category === "PTY")?.obsrValue || "0";
+
+            const skyInfo = await fetchSkyCondition(grid, serviceKey);
+            const skyText = describeSkyCondition(skyInfo.sky, ptyNow !== "0" ? ptyNow : skyInfo.pty);
+            document.getElementById("sky_condition").value = skyText;
+
             const T = parseFloat(t1h); const V = parseFloat(wsd); const RH = parseFloat(reh);
+            document.getElementById("wind_speed").value = V.toFixed(1) + " m/s";
             let feelTemp = T; const month = new Date().getMonth() + 1;
 
             if (month >= 5 && month <= 9) {
@@ -1098,7 +1143,7 @@
             
             // 필수 유지 사항 3번 연동: 수급 성공 시 종합 정보를 얼럿 모달로 디스플레이 처리
 // 💡 여기서부터 새로 작성된 체감온도 등급별 안내 로직입니다.
-            let alertMessage = `☀️ 기상청 단기 기상정보 호출 완료.\n📍 현재 위치: ${addressName || "동기화 완료"}\n🌡  온도: ${T.toFixed(1)}°C\n💧 대기 습도: ${RH}%\n🌀 체감 온도: ${feelTemp.toFixed(1)}°C\n\n`;
+            let alertMessage = `☀️ 기상청 단기 기상정보 호출 완료.\n📍 현재 위치: ${addressName || "동기화 완료"}\n🌡  온도: ${T.toFixed(1)}°C\n💧 대기 습도: ${RH}%\n🌀 체감 온도: ${feelTemp.toFixed(1)}°C\n💨 풍속: ${V.toFixed(1)}m/s\n🌥 날씨: ${skyText}\n\n`;
             let safetyGuide = "";
             let specialReport = "";
 
