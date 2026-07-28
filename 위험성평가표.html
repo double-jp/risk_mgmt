@@ -1261,6 +1261,12 @@
 
     templateImage.onload = () => generateImage();
 
+    const leftSideImage = new Image();
+    leftSideImage.src = './img_warning.jpg';
+    leftSideImage.onload = () => generateImage();
+    const rightSideImage = new Image();
+    rightSideImage.src = './img_heavy.jpg';
+    rightSideImage.onload = () => generateImage();
 
     function toggleEtc(cbId, wrapId) {
       const cb = document.getElementById(cbId);
@@ -1357,7 +1363,42 @@
         }
       });
 
-      finalImg.src = mainCanvas.toDataURL("image/png");
+      buildComposite();
+    }
+
+    function buildComposite() {
+      const tmplW = mainCanvas.width;
+      const tmplH = mainCanvas.height;
+      const gap = 30;
+      const leftLoaded = leftSideImage.complete && leftSideImage.naturalWidth > 0;
+      const rightLoaded = rightSideImage.complete && rightSideImage.naturalWidth > 0;
+      const leftW = leftLoaded ? Math.round(tmplH * leftSideImage.naturalWidth / leftSideImage.naturalHeight) : 0;
+      const rightW = rightLoaded ? Math.round(tmplH * rightSideImage.naturalWidth / rightSideImage.naturalHeight) : 0;
+      const totalW = (leftW > 0 ? leftW + gap : 0) + tmplW + (rightW > 0 ? rightW + gap : 0);
+      let compositeCanvas = document.getElementById('compositeCanvas');
+      if (!compositeCanvas) {
+        compositeCanvas = document.createElement('canvas');
+        compositeCanvas.id = 'compositeCanvas';
+        compositeCanvas.style.display = 'none';
+        document.body.appendChild(compositeCanvas);
+      }
+      compositeCanvas.width = totalW;
+      compositeCanvas.height = tmplH;
+      const cCtx = compositeCanvas.getContext('2d');
+      cCtx.fillStyle = '#ffffff';
+      cCtx.fillRect(0, 0, totalW, tmplH);
+      let xOffset = 0;
+      if (leftLoaded && leftW > 0) {
+        cCtx.drawImage(leftSideImage, xOffset, 0, leftW, tmplH);
+        xOffset += leftW + gap;
+      }
+      cCtx.drawImage(mainCanvas, xOffset, 0);
+      xOffset += tmplW;
+      if (rightLoaded && rightW > 0) {
+        xOffset += gap;
+        cCtx.drawImage(rightSideImage, xOffset, 0, rightW, tmplH);
+      }
+      finalImg.src = compositeCanvas.toDataURL("image/png");
     }
 
     // 문제점 3 반영 요건: 기존 자필 디지털 모달 서명 팝업 시스템 기능 완벽 유지
@@ -1447,7 +1488,8 @@
       const locationText = locationVal ? `_${locationVal}` : "";
       const filename = `평가표_${dateVal}${locationText}.png`;
 
-      const dataUrl = mainCanvas.toDataURL("image/png");
+      const compositeCanvas = document.getElementById('compositeCanvas');
+      const dataUrl = (compositeCanvas && compositeCanvas.width > 0) ? compositeCanvas.toDataURL("image/png") : mainCanvas.toDataURL("image/png");
       
       const downloadLink = document.createElement("a");
       downloadLink.download = filename;
