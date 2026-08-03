@@ -1116,12 +1116,17 @@
 
         try {
           const response = await fetch(url);
-          const data = await response.json();
-          if (data?.response?.header?.resultCode !== "00") {
-            const rc = data?.response?.header?.resultCode || "알 수 없음";
-            const rm = data?.response?.header?.resultMsg || "";
-            alert(`기상청 API 오류 [${rc}]: ${rm}\n\n서비스키 활용신청 승인 여부를 공공데이터포털(data.go.kr)에서 확인해주세요.`);
-          } else if (data?.response?.header?.resultCode === "00") {
+          const rawText = await response.text();
+          let data;
+          try { data = JSON.parse(rawText); } catch(e) {
+            alert(`기상청 API 응답 오류 (JSON 파싱 실패):\n\n${rawText.substring(0, 400)}\n\n※ 위 내용을 캡처하여 공유해주세요.`);
+            return;
+          }
+          const resultCode = data?.response?.header?.resultCode;
+          const resultMsg  = data?.response?.header?.resultMsg || "";
+          if (resultCode !== "00") {
+            alert(`기상청 API 오류 [${resultCode || "알 수 없음"}]: ${resultMsg}\n\n※ data.go.kr → 마이페이지 → 오픈API → 활용신청 현황에서 승인여부 확인`);
+          } else if (resultCode === "00") {
             const items = data.response.body.items.item;
             const t1h = items.find(i => i.category === "T1H").obsrValue;
             const wsd = items.find(i => i.category === "WSD")?.obsrValue || 0;
@@ -1238,7 +1243,11 @@
         } finally {
           if (btn) { btn.innerText = originalText; btn.disabled = false; }
         }
-      });
+      }, (geoError) => {
+        const geoMsg = {1:"위치 접근 권한이 거부됐습니다. 브라우저 설정에서 위치 권한을 허용해주세요.", 2:"위치 정보를 가져올 수 없습니다. GPS 신호를 확인해주세요.", 3:"위치 정보 요청 시간이 초과됐습니다."};
+        alert("GPS 오류: " + (geoMsg[geoError.code] || geoError.message));
+        if (btn) { btn.innerText = originalText; btn.disabled = false; }
+      }, { timeout: 15000 });
     }
 
     let defaultWorkList = ["H/W 점검", "시설물 점검", "공중선 최적화", "공중선 점검", "전원 작업", "무선국 수검"];
