@@ -1121,7 +1121,14 @@
           const rawText = await response.text();
           let data;
           try { data = JSON.parse(rawText); } catch(e) {
-            alert(`기상청 API 응답 오류 (JSON 파싱 실패):\n\n${rawText.substring(0, 400)}\n\n※ 위 내용을 캡처하여 공유해주세요.`);
+            const errMsg  = (rawText.match(/<errMsg>(.*?)<\/errMsg>/)      || [])[1];
+            const errCode = (rawText.match(/<returnReasonCode>(.*?)<\/returnReasonCode>/) || [])[1];
+            const authMsg = (rawText.match(/<returnAuthMsg>(.*?)<\/returnAuthMsg>/)       || [])[1];
+            if (errMsg) {
+              alert(`기상청 API 오류:\n${errMsg}\n오류코드: ${errCode || authMsg || "없음"}\n\n※ data.go.kr → 마이페이지 → 오픈API → 활용신청 현황에서 서비스키 승인 여부를 확인해주세요.`);
+            } else {
+              alert(`기상청 API 응답 파싱 오류:\n${rawText.substring(0, 500)}`);
+            }
             return;
           }
           const resultCode = data?.response?.header?.resultCode;
