@@ -1056,9 +1056,16 @@
         if (hour < 0) { hour = 23; baseDateObj.setDate(baseDateObj.getDate() - 1); }
         const base_date = baseDateObj.getFullYear() + String(baseDateObj.getMonth() + 1).padStart(2, '0') + String(baseDateObj.getDate()).padStart(2, '0');
         const base_time = String(hour).padStart(2, '0') + '30';
-        const res = await fetch(`https://corsproxy.io/?https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=${serviceKey}&pageNo=1&numOfRows=100&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=${grid.x}&ny=${grid.y}`);
-        const rawText = await res.text();
-        const data = JSON.parse(rawText);
+        const skyDirectUrl = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=${serviceKey}&pageNo=1&numOfRows=100&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=${grid.x}&ny=${grid.y}`;
+        let skyRaw;
+        try {
+          const r = await fetch(skyDirectUrl);
+          skyRaw = await r.text();
+        } catch(e) {
+          const r = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(skyDirectUrl));
+          skyRaw = await r.text();
+        }
+        const data = JSON.parse(skyRaw);
         if (data?.response?.header?.resultCode === "00") {
           const items = data.response.body.items.item;
           return {
@@ -1112,11 +1119,17 @@
         const base_date = baseDateObj.getFullYear() + String(baseDateObj.getMonth() + 1).padStart(2, '0') + String(baseDateObj.getDate()).padStart(2, '0');
         const base_time = String(baseHour).padStart(2, '0') + '00';
         const serviceKey = "4db43e791633bf58ced61b43f08d1e05c71498c1d06bccf791ebf732f19ed17a";
-        const url = `https://corsproxy.io/?https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${serviceKey}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=${grid.x}&ny=${grid.y}`;
+        const directUrl = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${serviceKey}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=${grid.x}&ny=${grid.y}`;
 
         try {
-          const response = await fetch(url);
-          const rawText = await response.text();
+          let rawText;
+          try {
+            const directRes = await fetch(directUrl);
+            rawText = await directRes.text();
+          } catch(corsErr) {
+            const proxyRes = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(directUrl));
+            rawText = await proxyRes.text();
+          }
           let data;
           try { data = JSON.parse(rawText); } catch(e) {
             const errMsg  = (rawText.match(/<errMsg>(.*?)<\/errMsg>/)      || [])[1];
