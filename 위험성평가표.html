@@ -1105,15 +1105,23 @@
         } catch (e) { console.error(e); }
 
         const grid = dfs_xy_conv(lat, lon);
-        const base_date = new Date().getFullYear() + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate()).padStart(2, '0');
-        const base_time = String(new Date().getHours() - 1).padStart(2, '0') + '00';
+        const now = new Date();
+        const baseDateObj = new Date(now);
+        let baseHour = now.getHours() - 1;
+        if (baseHour < 0) { baseHour = 23; baseDateObj.setDate(baseDateObj.getDate() - 1); }
+        const base_date = baseDateObj.getFullYear() + String(baseDateObj.getMonth() + 1).padStart(2, '0') + String(baseDateObj.getDate()).padStart(2, '0');
+        const base_time = String(baseHour).padStart(2, '0') + '00';
         const serviceKey = "4db43e791633bf58ced61b43f08d1e05c71498c1d06bccf791ebf732f19ed17a";
         const url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${serviceKey}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=${grid.x}&ny=${grid.y}`;
 
         try {
           const response = await fetch(url);
           const data = await response.json();
-          if (data?.response?.header?.resultCode === "00") {
+          if (data?.response?.header?.resultCode !== "00") {
+            const rc = data?.response?.header?.resultCode || "알 수 없음";
+            const rm = data?.response?.header?.resultMsg || "";
+            alert(`기상청 API 오류 [${rc}]: ${rm}\n\n서비스키 활용신청 승인 여부를 공공데이터포털(data.go.kr)에서 확인해주세요.`);
+          } else if (data?.response?.header?.resultCode === "00") {
             const items = data.response.body.items.item;
             const t1h = items.find(i => i.category === "T1H").obsrValue;
             const wsd = items.find(i => i.category === "WSD")?.obsrValue || 0;
@@ -1225,7 +1233,8 @@
             generateImage();
           }
         } catch (error) {
-          alert("기상 데이터 수급에 에러가 발생했습니다.");
+          console.error("Weather fetch error:", error);
+          alert("기상 데이터 수급에 에러가 발생했습니다.\n\n오류 내용: " + (error?.message || String(error)) + "\n\n※ 공공데이터포털(data.go.kr) 서비스키 승인 상태를 확인해주세요.");
         } finally {
           if (btn) { btn.innerText = originalText; btn.disabled = false; }
         }
