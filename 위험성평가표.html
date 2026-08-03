@@ -1056,8 +1056,7 @@
         if (hour < 0) { hour = 23; baseDateObj.setDate(baseDateObj.getDate() - 1); }
         const base_date = baseDateObj.getFullYear() + String(baseDateObj.getMonth() + 1).padStart(2, '0') + String(baseDateObj.getDate()).padStart(2, '0');
         const base_time = String(hour).padStart(2, '0') + '30';
-        const apiUrl = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=${serviceKey}&pageNo=1&numOfRows=100&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=${grid.x}&ny=${grid.y}`;
-        const res = await fetch("https://corsproxy.io/?" + encodeURIComponent(apiUrl));
+        const res = await fetch(`https://corsproxy.io/?https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=${serviceKey}&pageNo=1&numOfRows=100&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=${grid.x}&ny=${grid.y}`);
         const rawText = await res.text();
         const data = JSON.parse(rawText);
         if (data?.response?.header?.resultCode === "00") {
@@ -1113,8 +1112,7 @@
         const base_date = baseDateObj.getFullYear() + String(baseDateObj.getMonth() + 1).padStart(2, '0') + String(baseDateObj.getDate()).padStart(2, '0');
         const base_time = String(baseHour).padStart(2, '0') + '00';
         const serviceKey = "4db43e791633bf58ced61b43f08d1e05c71498c1d06bccf791ebf732f19ed17a";
-        const apiUrl = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${serviceKey}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=${grid.x}&ny=${grid.y}`;
-        const url = "https://corsproxy.io/?" + encodeURIComponent(apiUrl);
+        const url = `https://corsproxy.io/?https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${serviceKey}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=${grid.x}&ny=${grid.y}`;
 
         try {
           const response = await fetch(url);
