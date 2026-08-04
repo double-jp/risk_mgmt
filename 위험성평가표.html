@@ -1856,84 +1856,84 @@
     }
 
     const checkPositions_trans = {
-      // 기상현황 (y≈352)
+      // 기상현황
       weather_clear:{x:185,y:357},weather_wind:{x:252,y:357},weather_rain_or_snow:{x:320,y:357},weather_hot:{x:393,y:357},weather_cold:{x:462,y:357},
-      // 건설장비 row1 (y≈402)
+      // 건설장비 row1
       machine_crane:{x:185,y:403},machine_sky:{x:320,y:403},machine_sj:{x:550,y:403},machine_labbercar:{x:752,y:403},
-      // 건설장비 row2 (y≈432)
+      // 건설장비 row2
       machine_dumptruck:{x:185,y:435},machine_excavator:{x:278,y:435},machine_pumpcar:{x:362,y:435},machine_mixtruck:{x:437,y:435},machine_forklift:{x:510,y:435},machine_ect:{x:582,y:435},
-      // 현장특성
-      t_road_outside:{x:170,y:558},t_road_narrow:{x:170,y:580},t_tunnel:{x:170,y:602},
-      t_inside:{x:442,y:558},t_rooftop:{x:442,y:576},t_manhole_work:{x:442,y:594},t_pipe_work:{x:442,y:612},
-      t_sinkhole:{x:700,y:558},t_near_voltage:{x:700,y:576},t_taas:{x:700,y:594},t_site_ect:{x:700,y:612},
-      // 공통사항 (y≈700-865)
+      // 현장특성 (row1=536, row2=558, row3=580, row4=602)
+      t_road_outside:{x:170,y:536},t_road_narrow:{x:170,y:580},t_tunnel:{x:170,y:602},
+      t_inside:{x:442,y:536},t_rooftop:{x:442,y:558},t_manhole_work:{x:442,y:580},t_pipe_work:{x:442,y:602},
+      t_sinkhole:{x:700,y:536},t_near_voltage:{x:700,y:558},t_taas:{x:700,y:580},t_site_ect:{x:700,y:602},
+      // 공통사항
       common_equipment:{x:170,y:722},common_machine:{x:170,y:745},common_health:{x:170,y:768},common_tool:{x:170,y:791},common_stop_work:{x:170,y:814},common_danger:{x:170,y:837},common_heavy:{x:170,y:860},
       hot_thermometer:{x:638,y:722},hot_water:{x:638,y:745},hot_icebox:{x:638,y:768},hot_candy:{x:638,y:791},hot_rest:{x:638,y:814},
       cold_warmer:{x:878,y:722},cold_cloth:{x:878,y:745},
-      // 위험요인 테이블 (y≈898~)
-      t_risk_fall:{x:220,y:950},t_fall_1:{x:628,y:908},t_fall_2:{x:628,y:928},t_fall_3:{x:628,y:948},t_fall_4:{x:628,y:968},t_fall_5:{x:628,y:988},
-      t_risk_car:{x:220,y:1042},t_car_1:{x:628,y:1025},t_car_2:{x:628,y:1045},
-      t_risk_manhole:{x:220,y:1105},t_manhole_1:{x:628,y:1092},
-      t_risk_heavy:{x:220,y:1160},t_heavy_1:{x:628,y:1148},t_heavy_2:{x:628,y:1168},
-      t_risk_slip:{x:220,y:1248},t_slip_1:{x:628,y:1212},t_slip_2:{x:628,y:1232},t_slip_3:{x:628,y:1252},t_slip_4:{x:628,y:1272},t_slip_5:{x:628,y:1292},
-      t_risk_electric:{x:220,y:1330},t_electric_1:{x:628,y:1315},t_electric_2:{x:628,y:1335},
-      t_risk_drop:{x:220,y:1390},t_drop_1:{x:628,y:1375},t_drop_2:{x:628,y:1395},
-      t_risk_fire:{x:220,y:1458},t_fire_1:{x:628,y:1440},t_fire_2:{x:628,y:1460},t_fire_3:{x:628,y:1480},
-      t_risk_bury:{x:220,y:1530},t_bury_1:{x:628,y:1513},t_bury_2:{x:628,y:1533},t_bury_3:{x:628,y:1553},
+      // 위험요인 테이블 (위험종류 x=155로 수정)
+      t_risk_fall:{x:155,y:910},t_fall_1:{x:628,y:908},t_fall_2:{x:628,y:928},t_fall_3:{x:628,y:948},t_fall_4:{x:628,y:968},t_fall_5:{x:628,y:988},
+      t_risk_car:{x:155,y:1010},t_car_1:{x:628,y:1025},t_car_2:{x:628,y:1045},
+      t_risk_manhole:{x:155,y:1073},t_manhole_1:{x:628,y:1092},
+      t_risk_heavy:{x:155,y:1128},t_heavy_1:{x:628,y:1148},t_heavy_2:{x:628,y:1168},
+      t_risk_slip:{x:155,y:1212},t_slip_1:{x:628,y:1212},t_slip_2:{x:628,y:1232},t_slip_3:{x:628,y:1252},t_slip_4:{x:628,y:1272},t_slip_5:{x:628,y:1292},
+      t_risk_electric:{x:155,y:1300},t_electric_1:{x:628,y:1315},t_electric_2:{x:628,y:1335},
+      t_risk_drop:{x:155,y:1365},t_drop_1:{x:628,y:1375},t_drop_2:{x:628,y:1395},
+      t_risk_fire:{x:155,y:1438},t_fire_1:{x:628,y:1440},t_fire_2:{x:628,y:1460},t_fire_3:{x:628,y:1480},
+      t_risk_bury:{x:155,y:1508},t_bury_1:{x:628,y:1513},t_bury_2:{x:628,y:1533},t_bury_3:{x:628,y:1553},
     };
 
     const checkPositions_office = {
-      // 기상현황 (y≈316)
+      // 기상현황
       weather_clear:{x:185,y:320},weather_wind:{x:252,y:320},weather_rain_or_snow:{x:320,y:320},weather_hot:{x:393,y:320},weather_cold:{x:462,y:320},
-      // 건설장비 row1 (y≈363)
+      // 건설장비 row1
       machine_crane:{x:185,y:365},machine_sky:{x:320,y:365},machine_sj:{x:550,y:365},machine_labbercar:{x:752,y:365},
-      // 건설장비 row2 (y≈395)
+      // 건설장비 row2
       machine_dumptruck:{x:185,y:397},machine_excavator:{x:278,y:397},machine_pumpcar:{x:362,y:397},machine_mixtruck:{x:437,y:397},machine_forklift:{x:510,y:397},machine_ect:{x:582,y:397},
-      // 현장특성
-      o_road_outside:{x:170,y:512},o_road_inside:{x:170,y:535},o_road_narrow:{x:170,y:558},o_rooftop:{x:170,y:581},
-      o_bridge:{x:442,y:512},o_factory:{x:442,y:535},o_inside_work:{x:442,y:558},o_sinkhole:{x:442,y:581},
-      o_taas:{x:700,y:512},o_site_ect:{x:700,y:535},
-      // 공통사항 (y≈620-720)
-      common_equipment:{x:170,y:635},common_machine:{x:170,y:658},common_health:{x:170,y:681},common_tool:{x:170,y:704},common_stop_work:{x:170,y:727},common_danger:{x:170,y:750},
-      hot_thermometer:{x:638,y:635},hot_water:{x:638,y:658},hot_icebox:{x:638,y:681},hot_candy:{x:638,y:704},hot_rest:{x:638,y:727},
-      cold_warmer:{x:878,y:635},cold_cloth:{x:878,y:658},
-      // 위험요인 테이블 (y≈820~)
-      o_risk_fall:{x:220,y:910},o_fall_1:{x:628,y:848},o_fall_2:{x:628,y:870},o_fall_3:{x:628,y:890},o_fall_4:{x:628,y:910},o_fall_5:{x:628,y:930},
-      o_risk_fire:{x:220,y:1035},o_fire_1:{x:628,y:1010},o_fire_2:{x:628,y:1030},o_fire_3:{x:628,y:1050},o_fire_4:{x:628,y:1070},
-      o_risk_electric:{x:220,y:1130},o_electric_1:{x:628,y:1108},o_electric_2:{x:628,y:1128},o_electric_3:{x:628,y:1148},o_electric_4:{x:628,y:1168},
-      o_risk_msd:{x:220,y:1228},o_msd_1:{x:628,y:1208},o_msd_2:{x:628,y:1228},o_msd_3:{x:628,y:1248},
-      o_risk_truck:{x:220,y:1308},o_truck_1:{x:628,y:1290},o_truck_2:{x:628,y:1310},
-      o_risk_crane:{x:220,y:1378},o_crane_1:{x:628,y:1360},o_crane_2:{x:628,y:1380},o_crane_3:{x:628,y:1400},
-      o_risk_confined:{x:220,y:1448},o_confined_1:{x:628,y:1432},o_confined_2:{x:628,y:1452},
-      o_risk_cut:{x:220,y:1525},o_cut_1:{x:628,y:1508},o_cut_2:{x:628,y:1528},
-      o_risk_msds:{x:220,y:1598},o_msds_1:{x:628,y:1583},o_msds_2:{x:628,y:1603},o_msds_3:{x:628,y:1623},
+      // 현장특성 (-64px 보정)
+      o_road_outside:{x:170,y:448},o_road_inside:{x:170,y:471},o_road_narrow:{x:170,y:494},o_rooftop:{x:170,y:517},
+      o_bridge:{x:442,y:448},o_factory:{x:442,y:471},o_inside_work:{x:442,y:494},o_sinkhole:{x:442,y:517},
+      o_taas:{x:700,y:448},o_site_ect:{x:700,y:471},
+      // 공통사항 (-35px 보정)
+      common_equipment:{x:170,y:600},common_machine:{x:170,y:622},common_health:{x:170,y:644},common_tool:{x:170,y:666},common_stop_work:{x:170,y:688},common_danger:{x:170,y:710},
+      hot_thermometer:{x:638,y:608},hot_water:{x:638,y:630},hot_icebox:{x:638,y:652},hot_candy:{x:638,y:674},hot_rest:{x:638,y:696},
+      cold_warmer:{x:878,y:608},cold_cloth:{x:878,y:630},
+      // 위험요인 테이블 (위험종류 x=120)
+      o_risk_fall:{x:120,y:1003},o_fall_1:{x:628,y:808},o_fall_2:{x:628,y:828},o_fall_3:{x:628,y:848},o_fall_4:{x:628,y:868},o_fall_5:{x:628,y:888},
+      o_risk_fire:{x:120,y:1047},o_fire_1:{x:628,y:1042},o_fire_2:{x:628,y:1062},o_fire_3:{x:628,y:1082},o_fire_4:{x:628,y:1102},
+      o_risk_electric:{x:120,y:1128},o_electric_1:{x:628,y:1112},o_electric_2:{x:628,y:1132},o_electric_3:{x:628,y:1152},o_electric_4:{x:628,y:1172},
+      o_risk_msd:{x:120,y:1208},o_msd_1:{x:628,y:1195},o_msd_2:{x:628,y:1217},o_msd_3:{x:628,y:1239},
+      o_risk_truck:{x:120,y:1292},o_truck_1:{x:628,y:1278},o_truck_2:{x:628,y:1300},
+      o_risk_crane:{x:120,y:1363},o_crane_1:{x:628,y:1350},o_crane_2:{x:628,y:1372},o_crane_3:{x:628,y:1394},
+      o_risk_confined:{x:120,y:1438},o_confined_1:{x:628,y:1423},o_confined_2:{x:628,y:1445},
+      o_risk_cut:{x:120,y:1510},o_cut_1:{x:628,y:1497},o_cut_2:{x:628,y:1519},
+      o_risk_msds:{x:120,y:1593},o_msds_1:{x:628,y:1578},o_msds_2:{x:628,y:1600},o_msds_3:{x:628,y:1622},
     };
 
     const checkPositions_si = {
-      // 기상현황 (y≈262)
-      weather_clear:{x:185,y:265},weather_wind:{x:250,y:265},weather_rain_or_snow:{x:318,y:265},weather_hot:{x:388,y:265},weather_cold:{x:456,y:265},
-      // 건설장비/작업계획서 row1 (y≈295)
-      machine_crane:{x:185,y:297},machine_sky:{x:340,y:297},machine_sj:{x:545,y:297},
-      // 건설장비 row2 (y≈322)
-      machine_labbercar:{x:185,y:325},machine_dumptruck:{x:278,y:325},machine_pumpcar:{x:375,y:325},machine_mixtruck:{x:452,y:325},machine_forklift:{x:522,y:325},machine_ect:{x:595,y:325},
-      // 현장특성 (y≈430-560)
-      s_ceiling_high:{x:243,y:448},s_aisle_high:{x:243,y:468},s_blind_spot:{x:243,y:488},
-      s_sky_canopy:{x:243,y:508},s_pedestrian:{x:243,y:528},s_fall_risk:{x:243,y:548},s_site_ect:{x:243,y:568},
-      // 공통/작업전확인사항 (y≈560-700)
-      common_equipment:{x:170,y:582},common_machine:{x:170,y:605},common_health:{x:170,y:628},common_tool:{x:170,y:651},common_stop_work:{x:170,y:674},common_danger:{x:170,y:697},
-      hot_thermometer:{x:628,y:582},hot_water:{x:628,y:605},hot_icebox:{x:628,y:628},hot_candy:{x:628,y:651},hot_rest:{x:628,y:674},
-      cold_warmer:{x:868,y:582},cold_cloth:{x:868,y:605},
-      // 위험요인 테이블 (y≈760~)
-      s_risk_ppe:{x:220,y:820},s_ppe_1:{x:628,y:798},s_ppe_2:{x:628,y:818},
-      s_risk_truck:{x:220,y:882},s_truck_1:{x:628,y:862},s_truck_2:{x:628,y:882},
-      s_risk_cut:{x:220,y:945},s_cut_1:{x:628,y:928},s_cut_2:{x:628,y:948},
-      s_risk_fall:{x:220,y:1062},s_fall_1:{x:628,y:1000},s_fall_2:{x:628,y:1022},s_fall_3:{x:628,y:1042},s_fall_4:{x:628,y:1062},s_fall_5:{x:628,y:1082},
-      s_risk_msd:{x:220,y:1152},s_msd_1:{x:628,y:1135},s_msd_2:{x:628,y:1155},
-      s_risk_drop:{x:220,y:1228},s_drop_1:{x:628,y:1208},s_drop_2:{x:628,y:1228},s_drop_3:{x:628,y:1248},s_drop_4:{x:628,y:1268},
-      s_risk_electric:{x:220,y:1310},s_electric_1:{x:628,y:1295},s_electric_2:{x:628,y:1315},s_electric_3:{x:628,y:1335},
-      s_risk_fire:{x:220,y:1390},s_fire_1:{x:628,y:1370},s_fire_2:{x:628,y:1390},s_fire_3:{x:628,y:1410},
-      s_risk_crane:{x:220,y:1462},s_crane_1:{x:628,y:1445},s_crane_2:{x:628,y:1465},
-      s_risk_msds:{x:220,y:1538},s_msds_1:{x:628,y:1520},s_msds_2:{x:628,y:1540},s_msds_3:{x:628,y:1560},
+      // 기상현황 (-65px 보정)
+      weather_clear:{x:185,y:200},weather_wind:{x:250,y:200},weather_rain_or_snow:{x:318,y:200},weather_hot:{x:388,y:200},weather_cold:{x:456,y:200},
+      // 건설장비 row1 (-84px 보정)
+      machine_crane:{x:185,y:213},machine_sky:{x:340,y:213},machine_sj:{x:545,y:213},
+      // 건설장비 row2 (-85px 보정)
+      machine_labbercar:{x:185,y:240},machine_dumptruck:{x:278,y:240},machine_pumpcar:{x:375,y:240},machine_mixtruck:{x:452,y:240},machine_forklift:{x:522,y:240},machine_ect:{x:595,y:240},
+      // 현장특성 (-153px 보정)
+      s_ceiling_high:{x:243,y:295},s_aisle_high:{x:243,y:320},s_blind_spot:{x:243,y:345},
+      s_sky_canopy:{x:243,y:370},s_pedestrian:{x:243,y:395},s_fall_risk:{x:243,y:420},s_site_ect:{x:243,y:445},
+      // 공통/작업전확인사항 (-107px 보정)
+      common_equipment:{x:170,y:475},common_machine:{x:170,y:500},common_health:{x:170,y:525},common_tool:{x:170,y:550},common_stop_work:{x:170,y:575},common_danger:{x:170,y:600},
+      hot_thermometer:{x:628,y:475},hot_water:{x:628,y:500},hot_icebox:{x:628,y:525},hot_candy:{x:628,y:550},hot_rest:{x:628,y:575},
+      cold_warmer:{x:868,y:475},cold_cloth:{x:868,y:500},
+      // 위험요인 테이블 (-175px 보정)
+      s_risk_ppe:{x:220,y:645},s_ppe_1:{x:628,y:623},s_ppe_2:{x:628,y:643},
+      s_risk_truck:{x:220,y:707},s_truck_1:{x:628,y:687},s_truck_2:{x:628,y:707},
+      s_risk_cut:{x:220,y:770},s_cut_1:{x:628,y:753},s_cut_2:{x:628,y:773},
+      s_risk_fall:{x:220,y:887},s_fall_1:{x:628,y:825},s_fall_2:{x:628,y:847},s_fall_3:{x:628,y:867},s_fall_4:{x:628,y:887},s_fall_5:{x:628,y:907},
+      s_risk_msd:{x:220,y:977},s_msd_1:{x:628,y:960},s_msd_2:{x:628,y:982},
+      s_risk_drop:{x:220,y:1053},s_drop_1:{x:628,y:1033},s_drop_2:{x:628,y:1055},s_drop_3:{x:628,y:1075},s_drop_4:{x:628,y:1095},
+      s_risk_electric:{x:220,y:1135},s_electric_1:{x:628,y:1120},s_electric_2:{x:628,y:1140},s_electric_3:{x:628,y:1160},
+      s_risk_fire:{x:220,y:1215},s_fire_1:{x:628,y:1195},s_fire_2:{x:628,y:1215},s_fire_3:{x:628,y:1235},
+      s_risk_crane:{x:220,y:1287},s_crane_1:{x:628,y:1270},s_crane_2:{x:628,y:1290},
+      s_risk_msds:{x:220,y:1353},s_msds_1:{x:628,y:1345},s_msds_2:{x:628,y:1365},s_msds_3:{x:628,y:1385},
     };
 
     const checkPositions = {
