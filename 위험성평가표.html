@@ -67,6 +67,34 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased select-none overflow-x-hidden">
 
+  <!-- 공종 선택 모달 (body 직속 - overflow-hidden 영향 없음) -->
+  <div id="gongjong-modal" style="display:flex;position:fixed;inset:0;background:rgba(15,23,42,0.92);z-index:9999;align-items:center;justify-content:center;padding:24px">
+    <div style="width:100%;max-width:360px">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">공종 선택</div>
+        <p style="font-size:12px;color:#94a3b8">작업 공종을 선택하면 해당 위험성평가표가 열립니다</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <button onclick="selectGongJong('amang')" style="background:#2563eb;color:#fff;font-weight:700;border-radius:16px;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;border:none;cursor:pointer;font-size:14px">
+          <i class="fa-solid fa-tower-broadcast" style="font-size:24px"></i>
+          <span>A망</span>
+        </button>
+        <button onclick="selectGongJong('trans')" style="background:#4f46e5;color:#fff;font-weight:700;border-radius:16px;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;border:none;cursor:pointer;font-size:14px">
+          <i class="fa-solid fa-network-wired" style="font-size:24px"></i>
+          <span>전송</span>
+        </button>
+        <button onclick="selectGongJong('office')" style="background:#059669;color:#fff;font-weight:700;border-radius:16px;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;border:none;cursor:pointer;font-size:14px">
+          <i class="fa-solid fa-building" style="font-size:24px"></i>
+          <span>사옥 및 부대설비</span>
+        </button>
+        <button onclick="selectGongJong('si')" style="background:#d97706;color:#fff;font-weight:700;border-radius:16px;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;border:none;cursor:pointer;font-size:14px">
+          <i class="fa-solid fa-screwdriver-wrench" style="font-size:24px"></i>
+          <span>SI공사</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="max-w-md mx-auto h-screen h-[100dvh] flex flex-col bg-white shadow-2xl relative overflow-hidden">
     
     <header class="bg-white border-b border-slate-100 pt-5 pb-4 shrink-0 z-50 px-5">
@@ -96,34 +124,6 @@
         <button type="button" onclick="goToStep(4)" class="step-dot"></button>
       </div>
     </header>
-
-    <!-- 공종 선택 모달 -->
-    <div id="gongjong-modal" style="display:flex" class="fixed inset-0 bg-slate-900/90 z-[9998] flex flex-col items-center justify-center p-6">
-      <div class="w-full max-w-sm space-y-5">
-        <div class="text-center">
-          <div class="text-xl font-extrabold text-white mb-1">공종 선택</div>
-          <p class="text-xs text-slate-300">작업 공종을 선택하면 해당 위험성평가표가 열립니다</p>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <button onclick="selectGongJong('amang')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl p-5 flex flex-col items-center gap-2 shadow-lg transition cursor-pointer">
-            <i class="fa-solid fa-tower-broadcast text-2xl"></i>
-            <span class="text-sm">A망</span>
-          </button>
-          <button onclick="selectGongJong('trans')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl p-5 flex flex-col items-center gap-2 shadow-lg transition cursor-pointer">
-            <i class="fa-solid fa-network-wired text-2xl"></i>
-            <span class="text-sm">전송</span>
-          </button>
-          <button onclick="selectGongJong('office')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl p-5 flex flex-col items-center gap-2 shadow-lg transition cursor-pointer">
-            <i class="fa-solid fa-building text-2xl"></i>
-            <span class="text-sm">사옥 및 부대설비</span>
-          </button>
-          <button onclick="selectGongJong('si')" class="bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-2xl p-5 flex flex-col items-center gap-2 shadow-lg transition cursor-pointer">
-            <i class="fa-solid fa-screwdriver-wrench text-2xl"></i>
-            <span class="text-sm">SI공사</span>
-          </button>
-        </div>
-      </div>
-    </div>
 
     <main class="flex-1 min-h-0 overflow-hidden relative">
       <div id="swiper-wrapper" class="swiper-container">
